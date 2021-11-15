@@ -1,5 +1,5 @@
 function mod_signal = ofdm_mod(symbol_seq, packet_len)
-    assert(mod(length(symbol_seq), packet_len), "Message length is not compatible with OFDM packet length.");
+    assert(mod(length(symbol_seq), packet_len), "Message length not compatible with OFDM packet length.");
 
     segmentLength = (packet_len - 2) / 2;
     packet_num = length(symbol_seq) / segmentLength;
