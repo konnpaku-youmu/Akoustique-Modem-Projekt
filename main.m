@@ -1,4 +1,5 @@
 % Exercise session 4: DMT-OFDM transmission scheme
+clear;
 
 Nq = 6;
 
@@ -9,19 +10,19 @@ Nq = 6;
 qamStream = qam_mod(bitStream, 2^Nq);
 
 % OFDM modulation
-ofdmStream = qamStream;
+txOfdmStream = ofdm_mod(qamStream, 5122);
 
 % Channel
-rxOfdmStream = ofdmStream;
+rxOfdmStream = txOfdmStream;
 
 % OFDM demodulation
-rxQamStream = rxOfdmStream;
+rxQamStream = ofdm_demod(rxOfdmStream, 5122);
 
 % QAM demodulation
-rxBitStream = rxQamStream;
+rxBitStream = qam_demod(rxQamStream, 2^Nq);
 
 % Compute BER
-% berTransmission = ber(bitStream,rxBitStream);
+berTransmission = ber(bitStream,rxBitStream);
 
 % Construct image from bitstream
 imageRx = bitstreamtoimage(rxBitStream, imageSize, bitsPerPixel);

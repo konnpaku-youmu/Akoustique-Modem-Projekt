@@ -1,17 +1,11 @@
-function mod_signal = ofdm_mod(symbol_seq, packet_len)
-    assert(mod(length(symbol_seq), packet_len), "Message length is not compatible with OFDM packet length.");
-
-    segmentLength = (packet_len - 2) / 2;
-    packet_num = length(symbol_seq) / segmentLength;
-
-    frame = zeros(packet_len, packet_num);
-    frame_ifft = zeros(packet_len, packet_num);
-
-    for i=1:packet_num
-        frame(2:packet_len/2, i) = symbol_seq(1+(i-1)*(packet_len/2 - 1) : i*(packet_len/2-1));
-        frame(packet_len/2+2:end, i) = conj(flipud(frame(2:packet_len/2, i)));
-        frame_ifft(:, i) = ifft(frame(:, i));
-    end
-
-    mod_signal = reshape(frame_ifft, packet_len * packet_num, 1);
+function mod_signal = ofdm_mod(symbol_seq, frame_len)
+    frame_len_half = (frame_len-2) / 2;
+    frame_num = length(symbol_seq) / frame_len_half;
+    symbol_multi_chan = reshape(symbol_seq, frame_len_half, []);
+    symbol_multi_chan_conj = conj(flipud(symbol_multi_chan));
+    ofdm_packet = zeros(frame_len, frame_num);
+    ofdm_packet(2:frame_len_half+1, :) = symbol_multi_chan;
+    ofdm_packet(frame_len_half+3:end, :) = symbol_multi_chan_conj;
+    
+    mod_signal = ifft(ofdm_packet, frame_len, 1);
 end
