@@ -1,9 +1,10 @@
-% Exercise session 4: DMT-OFDM transmission scheme
 clear;
+load("Channel.mat");
 
-Nq = 6;
+Nq = 4;
 SNR = 20;
-prefix_len = 800;
+frame_len = 4802;
+prefix_len = 1200;
 
 % Convert BMP image to bitstream
 [bitStream, imageData, colorMap, imageSize, bitsPerPixel] = imagetobitstream('image.bmp');
@@ -12,13 +13,16 @@ prefix_len = 800;
 qamStream = qam_mod(bitStream, 2^Nq, SNR);
 
 % OFDM modulation
-txOfdmStream = ofdm_mod(qamStream, 5122, prefix_len);
+txOfdmStream = ofdm_mod(qamStream, frame_len, prefix_len);
 
 % Channel
-rxOfdmStream = txOfdmStream;
+h = [h; zeros(frame_len-length(h), 1)];
+H = fft(h);
+
+rxOfdmStream = filter(h, 1, txOfdmStream);
 
 % OFDM demodulation
-rxQamStream = ofdm_demod(rxOfdmStream, 5122, prefix_len);
+rxQamStream = ofdm_demod(rxOfdmStream, frame_len, prefix_len, H);
 
 % QAM demodulation
 rxBitStream = qam_demod(rxQamStream, 2^Nq);
