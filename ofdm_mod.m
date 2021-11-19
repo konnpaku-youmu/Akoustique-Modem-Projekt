@@ -21,6 +21,8 @@ function mod_signal = ofdm_mod(symbol_seq, frame_len, prefix_len, on_bit_indices
     ofdm_packet(2:frame_len_half+1, :) = symbol_multi_chan;
     ofdm_packet(frame_len_half+3:end, :) = symbol_multi_chan_conj;
     
-    mod_signal = reshape(ifft(ofdm_packet, frame_len, 1), 1, []);
-    mod_signal = [mod_signal(end-prefix_len+1:end), mod_signal];
+    mod_signal_no_prefix = ifft(ofdm_packet, frame_len, 1);
+    mod_signal_with_prefix = [mod_signal_no_prefix(end-prefix_len+1:end, :) ; mod_signal_no_prefix];
+
+    mod_signal = reshape(mod_signal_with_prefix, 1, []);
 end
