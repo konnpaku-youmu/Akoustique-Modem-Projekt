@@ -91,25 +91,25 @@ subplot(2,1,2);
 stft(IR_esti, fs, "FFTLength", N, "FrequencyRange","onesided");
 title("Estimated response using $\alpha$");
 
-% Exercise 2-1: Impulse response
-impulse = zeros(1, 2 * fs);
-impulse(1) = 1;
-
-% play and record the impulse signal
-[simin, ~, fs] = initparams(impulse, fs);
-
-sim('recplay');
-out=simout.signals.values(129:end);
-
-figure("Name", "IR Experiment");
-
-% plot the time-domain of input & output
-subplot(2, 1, 1);
-plot(out);
-xlabel("Samples");
-ylabel("Amplitude");
-
-% plot the spectrogram of the Tx and Rx signal
-subplot(2, 1, 2);
-stft(out, fs, "FFTLength", N, "FrequencyRange","onesided");
-title("Spectrogram @Rx");
+% % Exercise 2-1: Impulse response
+% impulse = zeros(1, 2 * fs);
+% impulse(1) = 1;
+% 
+% % play and record the impulse signal
+% [simin, ~, fs] = initparams(impulse, fs);
+% 
+% sim('recplay');
+% out=simout.signals.values(129:end);
+% 
+% figure("Name", "IR Experiment");
+% 
+% % plot the time-domain of input & output
+% subplot(2, 1, 1);
+% plot(out);
+% xlabel("Samples");
+% ylabel("Amplitude");
+% 
+% % plot the spectrogram of the Tx and Rx signal
+% subplot(2, 1, 2);
+% stft(out, fs, "FFTLength", N, "FrequencyRange","onesided");
+% title("Spectrogram @Rx");

@@ -5,9 +5,9 @@ load("Channel.mat");
 % h = rand(10, 1);
 
 Nq = 6;
-SNR = 60;
+SNR = 25;
 frame_len = 3202;
-prefix_len = 1.1 * length(h);
+prefix_len = 1.2 * length(h);
 
 % Convert BMP image to bitstream
 [bitStream, imageData, colorMap, imageSize, bitsPerPixel] = imagetobitstream('image.bmp');
@@ -16,7 +16,6 @@ prefix_len = 1.1 * length(h);
 qamStream = qam_mod(bitStream, 2^Nq, SNR);
 
 % on-off loading
-figure(1);
 H = fft(h, frame_len);
 HdB = 20 * log10(abs(H));
 
@@ -25,7 +24,7 @@ HdB = 20 * log10(abs(H));
 
 % select frequencies
 [~, high_gain_idx] = sort(HdB(2:frame_len/2), 'descend');
-high_gain_idx = sort(high_gain_idx(1:400), 'ascend');
+high_gain_idx = sort(high_gain_idx(1:32), 'ascend');
 
 % subplot(122);
 % plot(HdB(high_gain_idx));
