@@ -1,4 +1,4 @@
-function mod_signal = ofdm_mod(symbol_seq, frame_len, prefix_len, on_bit_indices)
+function mod_signal = ofdm_mod(symbol_seq, train_block, l_train, l_data, frame_len, prefix_len, on_bit_indices)
     valid_bins_per_frame = length(on_bit_indices);
 
     frame_len_half = (frame_len-2) / 2;

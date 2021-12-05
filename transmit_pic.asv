@@ -12,8 +12,8 @@ qamStream = qam_mod(bitStream, 2^Nq, SNR);
 train_bits = randi([0, 1], (frame_length/2 -1)*Nq, 1);
 train_block = qam_mod(train_bits, 2^Nq, SNR);
 
-% OFDM modulation
-txOfdmStream = ofdm_mod(qamStream, frame_length, prefix_len);
+% % OFDM modulation
+% txOfdmStream = ofdm_mod(qamStream, frame_length, prefix_len);
 % 
 % % Channel
 % rxOfdmStream = txOfdmStream;
