@@ -3,7 +3,6 @@ function mod_signal = ofdm_mod(symbol_seq, train_block, lt, ld, frame_len, prefi
     frame_len_half = (frame_len-2) / 2;
 
     if(isempty(on_bit_indices))
-        frame_num = length(symbol_seq) / frame_len_half;
         % create the training packet
         train_subpacket = reshape(repmat(train_block, [lt, 1]), frame_len_half, []);
         % create the data packet

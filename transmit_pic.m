@@ -45,6 +45,8 @@ berTransmission = ber(bitStream,rxBitStream);
 % Construct image from bitstream
 imageRx = bitstreamtoimage(rxBitStream, imageSize, bitsPerPixel);
 
+visualize_demod(fs, ld, rxBitStream, H_est, imageSize, bitsPerPixel, colorMap, imageData);
+
 % % Plot images
 % subplot(1,2,1); colormap(colorMap); image(imageData); axis image; title('Original image'); drawnow;
 % subplot(1,2,2); colormap(colorMap); image(imageRx); axis image; title(['Received image']); drawnow;
