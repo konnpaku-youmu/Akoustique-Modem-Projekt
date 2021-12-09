@@ -73,4 +73,3 @@ imageRx = bitstreamtoimage(rxBitStream, imageSize, bitsPerPixel);
 
 transmit_time = length(txOfdmStream) / fs;
 visualize_demod(fs, transmit_time, Nq, ld, frame_length, rxBitStream, H_est, imageSize, bitsPerPixel, colorMap, imageData, high_gain_idx);
-

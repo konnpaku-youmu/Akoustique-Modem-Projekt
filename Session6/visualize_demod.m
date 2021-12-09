@@ -8,12 +8,15 @@ function visualize_demod(fs, transmit_time, Nq, ld, frame_len, rx_stream, H_est,
     refresh_period = transmit_time / num_packets;
 
     for i=1:num_packets
+        H_a = H_est(:, i);
         H_i = H_est(:, i);
         h = ifft(H_i);
         % set inactive freq to 0
         inactive_freq = setdiff(linspace(1, frame_len_half, frame_len_half), high_gain_idx);
-        H_i(inactive_freq) = 0; 
-        H_mag = 10*log10(abs(H_est(:,i)));
+        H_a(inactive_freq) = 0;
+        H_i(high_gain_idx) = 0;
+        H_mag_a = 10*log10(abs(H_a));
+        H_mag_i = 10*log10(abs(H_i));
         
         subplot(2,2,1); plot(h); ylim([-1.5, 1.5]); xlim([0 frame_len]);
         xlabel("Time (s)"); ylabel("Amplitude");
@@ -22,7 +25,7 @@ function visualize_demod(fs, transmit_time, Nq, ld, frame_len, rx_stream, H_est,
         set(gca, 'XTick', xticks, 'XTickLabel', xticklabels);
         title("Estimated Channel IR: Time Domain");
         
-        subplot(2,2,3); plot(H_mag(1:frame_len_half)); ylim([-40, 20]); xlim([0 frame_len_half]);
+        subplot(2,2,3); plot(H_mag_a(1:frame_len_half)); hold on; plot(H_mag_i(1:frame_len_half)); hold off; ylim([-40, 20]); xlim([0 frame_len_half]);
         xlabel("Frequency (Hz)"); ylabel("Magnitude (dB)");
         xticklabels = 0:2000:fs/2;
         xticks = linspace(1, frame_len_half, numel(xticklabels));
