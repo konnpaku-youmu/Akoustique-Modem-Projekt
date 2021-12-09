@@ -5,7 +5,7 @@ fs = 16000;
 Nq = 6;
 SNR = 30;
 frame_length = 1026;
-prefix_len = 800;
+prefix_len = 400;
 
 lt=5;
 ld=5;
