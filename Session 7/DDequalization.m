@@ -13,28 +13,20 @@ X_k = qam_mod(bitstream, 2^Nq, 30);
 Y_k = H_k.*X_k;
 
 W_k = zeros(len, 1);
-W_k(1) = 1/conj(H_k(1)) + 0.005;
+W_k(1) = 1/conj(H_k(1)) + 0.5;
 
-mu_bar = 2;
-alpha = 0.001;
+mu_bar = 1.5;
+alpha = 1e-4;
 
-X_k_fil = zeros(len, 1);
-X_k_est = zeros(len, 1);
 for i=2:len
-    X_k_fil(i) = conj(W_k(i-1))*Y_k(i);
-    d_k = qammod(qamdemod(X_k_fil(i), 2^Nq), 2^Nq);
-    W_k(i) = W_k(i-1) + mu_bar/(alpha + conj(Y_k(i))*Y_k(i)) * Y_k(i) * conj(d_k - conj(W_k(i-1))*Y_k(i));
+    uk_wk_1 = conj(W_k(i-1))*Y_k(i);
+    d_k = qammod(qamdemod(uk_wk_1, 2^Nq), 2^Nq);
+    W_k(i) = W_k(i-1) + mu_bar/(alpha + conj(Y_k(i))*Y_k(i)) * Y_k(i) * conj(d_k - uk_wk_1);
 end
 
 subplot(211);
-plot(10*log10(abs(W_k)));
+plot(10*log10(abs(1./W_k)));
 hold on
 plot(10*log10(abs(H_k)));
 subplot(212);
-
-H_inv = zeros(len, 1);
-for i=1:len
-    H_inv(i) = 1.0/conj(H_k(i));
-end
-
-plot(abs(W_k - 1./conj(H_k)));
+plot(abs(W_k) - 1./abs(conj(H_k)));
