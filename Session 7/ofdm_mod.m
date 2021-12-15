@@ -8,7 +8,6 @@ function mod_signal = ofdm_mod(symbol_seq, train_block, lt, frame_len, prefix_le
     if(isempty(on_bit_indices))
         % create the data packet
         symbol_packet = reshape(symbol_seq, frame_len_half, []);
-        frame_num = size(symbol_packet, 2);
     else
         frame_num = ceil(length(symbol_seq) / actief_num_bins);
         symbol_seq_padded = zeros(actief_num_bins*frame_num, 1);
