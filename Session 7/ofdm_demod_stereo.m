@@ -1,4 +1,4 @@
-function [channel_esti, demod_sequence] = ofdm_demod_stereo(ofdm_packet, H_comb, train_block, lt, frame_len, prefix_len, on_bit_indices)
+function [channel_esti, demod_sequence] = ofdm_demod_stereo(ofdm_packet, train_block, H_comb, lt, frame_len, prefix_len, on_bit_indices)
     frame_len_half = (frame_len-2) / 2;
     % serial to parallel
     ofdm_frames = reshape(ofdm_packet, frame_len + prefix_len, []);
@@ -14,11 +14,15 @@ function [channel_esti, demod_sequence] = ofdm_demod_stereo(ofdm_packet, H_comb,
     tr_diag = diag([0;train_block;0;conj(flipud(train_block))]);
     X = repmat(tr_diag, [lt, 1]);
     channel_esti = lsqr(X, tr_serial, 1e-5, 50);
-    
+
     packet_data = demod_frames(:, lt+1:end);
 
     % channel equalization
-    packet_data = packet_data./channel_esti;
+    if(isempty(H_comb))
+        packet_data = packet_data./channel_esti;
+    else
+        packet_data = packet_data./H_comb;
+    end
 
     % parallel to serial
     if(isempty(on_bit_indices))

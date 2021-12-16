@@ -30,14 +30,14 @@ rx_ofdm_stream_r = fftfilt(h_2, ofdm_stream_r);
 
 rx_ofdm_stream = rx_ofdm_stream_r + rx_ofdm_stream_l;
 
-rx_ofdm_stream = awgn(rx_ofdm_stream, 20, 'measured');
+rx_ofdm_stream = awgn(rx_ofdm_stream, 30, 'measured');
 
-rx_qam_stream = ofdm_demod_stereo(rx_ofdm_stream, H_comb, train_block, lt, frame_length, prefix_len, []);
+[~, rx_qam_stream] = ofdm_demod_stereo(rx_ofdm_stream, train_block, H_comb, lt, frame_length, prefix_len, []);
 
 rx_bitstream = qam_demod(rx_qam_stream, 2^Nq);
 
 % Check the BER
-berTransmission = ber(bitStream,rx_bitstream);
+berTransmission = ber(bitStream, rx_bitstream);
 
 % Construct image from bitstream
 imageRx = bitstreamtoimage(rx_bitstream, imageSize, bitsPerPixel);

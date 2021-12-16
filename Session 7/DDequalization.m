@@ -15,7 +15,7 @@ Y_k = H_k.*X_k;
 W_k = zeros(len, 1);
 W_k(1) = 1/conj(H_k(1)) + 0.5;
 
-mu_bar = 1.5;
+mu_bar = 0.5;
 alpha = 1e-4;
 
 for i=2:len
